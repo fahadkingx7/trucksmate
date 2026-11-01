@@ -1,0 +1,8 @@
+# Apache / cPanel / GoDaddy hosting: never cache the page itself or the version file.
+<IfModule mod_headers.c>
+  <FilesMatch "^(index\.html|version\.json)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>

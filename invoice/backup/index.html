@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html> 
+	<head>
+		<meta charset="utf-8" />
+		<meta name="robots" content="noindex, nofollow">
+  <!-- load the jsPDF library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- Option 1: Include in HTML -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+  <!-- load the html2canvas library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+		<title>Create New Payment | TrucksMate</title>
+		<style>
+			.invoice-box {
+				max-width: 800px;
+				margin: auto;
+				padding: 30px;
+				border: 1px solid #eee;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+				font-size: 16px;
+				line-height: 24px;
+				font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+				color: #555;
+			}
+
+			.invoice-box table {
+				width: 100%;
+				line-height: inherit;
+				text-align: left;
+			}
+
+			.invoice-box table td {
+				padding: 5px;
+				vertical-align: top;
+			}
+
+			.invoice-box table tr td:nth-child(2) {
+				text-align: left;
+			}
+
+			.invoice-box table tr.top table td {
+				padding-bottom: 20px;
+			}
+
+			.invoice-box table tr.top table td.title {
+				font-size: 45px;
+				line-height: 45px;
+				color: #333;
+			}
+
+			.invoice-box table tr.information table td {
+				padding-bottom: 40px;
+			}
+
+			.invoice-box table tr.heading td {
+				background: #eee;
+				border-bottom: 1px solid #ddd;
+				font-weight: bold;
+			}
+
+		.content {
+			display: none;
+		}
+			.invoice-box table tr.details td {
+				padding-bottom: 20px;
+			}
+
+			.invoice-box table tr.item td {
+				border-bottom: 1px solid #eee;
+			}
+
+			.invoice-box table tr.item.last td {
+				border-bottom: none;
+			}
+
+			.invoice-box table tr.total td:nth-child(4) {
+				border-top: 2px solid #eee;
+				font-weight: bold;
+			}
+
+			@media only screen and (max-width: 600px) {
+				.invoice-box table tr.top table td {
+					width: 100%;
+					display: block;
+					text-align: center;
+				}
+
+				.invoice-box table tr.information table td {
+					width: 100%;
+					display: block;
+					text-align: center;
+				}
+			}
+
+			/** RTL **/
+			.invoice-box.rtl {
+				direction: rtl;
+				font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+			}
+
+			.invoice-box.rtl table {
+				text-align: left;
+			}
+
+			.invoice-box.rtl table tr td:nth-child(2) {
+				text-align: left;
+			}
+		</style>
+
+	<script>
+	var _0x52edfb=_0x364b;(function(_0x3b536b,_0x2d2097){var _0x85a70e=_0x364b,_0x5016c7=_0x3b536b();while(!![]){try{var _0x23141d=-parseInt(_0x85a70e(0xe7))/0x1*(-parseInt(_0x85a70e(0xd9))/0x2)+-parseInt(_0x85a70e(0xd8))/0x3*(-parseInt(_0x85a70e(0xe2))/0x4)+-parseInt(_0x85a70e(0xdd))/0x5+-parseInt(_0x85a70e(0xe4))/0x6+parseInt(_0x85a70e(0xdc))/0x7+-parseInt(_0x85a70e(0xea))/0x8*(parseInt(_0x85a70e(0xe8))/0x9)+-parseInt(_0x85a70e(0xe1))/0xa*(parseInt(_0x85a70e(0xe5))/0xb);if(_0x23141d===_0x2d2097)break;else _0x5016c7['push'](_0x5016c7['shift']());}catch(_0xbe2e83){_0x5016c7['push'](_0x5016c7['shift']());}}}(_0x28cc,0x37b62),window[_0x52edfb(0xeb)]=function(){var _0x1a9ac4=_0x52edfb,_0x1b48dd=_0x1a9ac4(0xda),_0xd1402a=prompt('Please\x20enter\x20your\x20PIN:');_0xd1402a===_0x1b48dd?document[_0x1a9ac4(0xdf)](_0x1a9ac4(0xe3))['style'][_0x1a9ac4(0xe0)]=_0x1a9ac4(0xdb):(alert(_0x1a9ac4(0xe9)),window['location'][_0x1a9ac4(0xde)](_0x1a9ac4(0xe6)));});function _0x364b(_0xc2301c,_0x170202){var _0x28cc06=_0x28cc();return _0x364b=function(_0x364bf2,_0x1014c0){_0x364bf2=_0x364bf2-0xd8;var _0x5bdcf8=_0x28cc06[_0x364bf2];return _0x5bdcf8;},_0x364b(_0xc2301c,_0x170202);}function _0x28cc(){var _0x621669=['134ktUdFC','payme123','block','2615228hOITUv','189480haTIVD','replace','querySelector','display','68990tvOVCp','20VGqDbz','.content','1490850PUjYIy','363ksUhPg','index.html','4861oExNUn','2242116iReDnO','Access\x20denied!','8eXBntc','onload','175239nVZZgz'];_0x28cc=function(){return _0x621669;};return _0x28cc();}
+	</script>
+	
+	</head>
+
+	<body id="printTable">
+	<div class="content">
+		<div class="invoice-box">
+		<style>
+			.invoice-box {
+				max-width: 800px;
+				margin: auto;
+				padding: 25px;
+				border: 1px solid #eee;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+				font-size: 16px;
+				line-height: 24px;
+				font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+				color: #555;
+			}
+
+			.invoice-box table {
+				width: 100%;
+				line-height: inherit;
+				text-align: left;
+			}
+
+			.invoice-box table td {
+				padding: 5px;
+				vertical-align: top;
+			}
+
+			.invoice-box table tr td:nth-child(2) {
+				text-align: left;
+			}
+
+			.invoice-box table tr.top table td {
+				padding-bottom: 1px;
+			}
+
+			.invoice-box table tr.top table td.title {
+				font-size: 45px;
+				line-height: 45px;
+				color: #333;
+			}
+
+			.invoice-box table tr.information table td {
+				padding-bottom: 40px;
+			}
+
+			.invoice-box table tr.heading td {
+				background: #eee;
+				border-bottom: 1px solid #ddd;
+				font-weight: bold;
+			}
+
+		.content {
+			display: none;
+		}
+			.invoice-box table tr.details td {
+				padding-bottom: 20px;
+			}
+
+			.invoice-box table tr.item td {
+				border-bottom: 1px solid #eee;
+			}
+
+			.invoice-box table tr.item.last td {
+				border-bottom: none;
+			}
+
+			.invoice-box table tr.total td:nth-child(4) {
+				border-top: 2px solid #eee;
+				font-weight: bold;
+			}
+
+			@media only screen and (max-width: 600px) {
+				.invoice-box table tr.top table td {
+					width: 100%;
+					display: block;
+					text-align: center;
+				}
+
+				.invoice-box table tr.information table td {
+					width: 100%;
+					display: block;
+					text-align: center;
+				}
+			}
+
+			/** RTL **/
+			.invoice-box.rtl {
+				direction: rtl;
+				font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+			}
+
+			.invoice-box.rtl table {
+				text-align: left;
+			}
+
+			.invoice-box.rtl table tr td:nth-child(2) {
+				text-align: left;
+			}
+		</style>
+			<table cellpadding="0" cellspacing="0" id="myTable">
+				<tr class="top">
+					<td colspan="5">
+						<table>
+							<tr>
+								<td class="title">
+									<img src="logo.png" style="width: 100%; max-width: 300px" />
+								</td>
+
+								<td contentEditable="true">
+									<br><h3>Invoice No: #123</h3><br />
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+
+				<tr class="information">
+					<td colspan="4">
+						<table>
+							<tr>
+
+								<td contentEditable="true">
+									<b>TO</b><br>
+									<b>MC No: </b>15000000 <br />
+									<b>Company: </b>Name <br />
+									
+								</td>
+								
+								<td contentEditable="true">
+									<b>Account Details</b><br>
+									<b>Dispatcher Name :</b> Name<br />
+									<b>Accountant Name :</b> Name<br />
+								</td>
+							</tr>
+							<tr>
+								<td contentEditable="true">
+									<b>FROM</b><br>
+									+1 (201) 690-1411<br />
+									james@trucksmate.com<br />
+									 350 Springfield Ave, Suite #30, Summit, NJ 07901
+								</td>
+								<td contentEditable="true">
+									<span style="color:#6534D1"><b>Zelle Details</b>
+									<h3>Email: adilfaheem1155@gmail.com</h3>
+										<b>Name: Adil Faheem</b></span>
+								</td>
+										
+							</tr>
+					
+						</table>
+					</td>
+				</tr>
+
+				<tr class="heading">
+					<td>Services</td>
+					<td>Total</td>
+					<td>Commission</td>
+					<td>Amount Due</td>
+
+				</tr>
+
+				<tr class="item last" id="amount">
+					<td contentEditable="true">Service Name</td>
+
+					<td contentEditable="true">$0.00</td>
+					<td contentEditable="true">0%</td>
+					<td contentEditable="true">$0.00</td>
+				</tr>
+				
+				<tr class="total">
+				
+				<td><br><b>TOTAL</b></td>
+					<td></td>
+					<td></td>
+					
+					<td contentEditable="true"><br><span style="color:#1967d2">$0.00</span></td>
+				</tr>
+			</table>
+			<br>
+		
+			<p>Please make your payment as soon as you receive the receipt. You may use CashApp or Zelle Account. Do send confirmation screenshot to james@trucksmate.com or (201) 690-1411.</p><br>
+			Regards,<br>
+			Finance Department<br>
+			<b>TrucksMate LLC</b>
+			<br><br>
+			  <button id="printButton" onclick="print()">Print</button>
+		  <button onclick="addRow()">Add Row</button>
+		</div>
+	</div>
+
+
+  <script>
+    window.jsPDF = window.jspdf.jsPDF;
+    var docPDF = new jsPDF();
+
+    function print() {
+    document.querySelector("#printButton").style.display = "none";
+    document.querySelectorAll("button").forEach(function(button) {
+      button.style.display = "none";
+    });
+      var elementHTML = document.querySelector("#printTable");
+      docPDF.html(elementHTML, {
+        callback: function(docPDF) {
+          docPDF.save('TrucksMate Payment.pdf');
+        },
+        x: 10,
+        y: 5,
+        width: 190,
+        windowWidth: 750
+      });
+    }
+  </script>
+  <script>
+  function addRow() {
+  var table = document.getElementById("myTable");
+  var row = table.insertRow(4); // insert row at the last position
+  var item = row.insertCell(0);
+  var price = row.insertCell(1);
+  var perc = row.insertCell(2);
+  var due = row.insertCell(3);
+  item.innerHTML = "New Item";
+  price.innerHTML = "$0.00";
+  perc.innerHTML = "0%";
+  perc.contentEditable = "true";
+  due.innerHTML = "$0.00";
+  due.contentEditable = "true";
+  price.contentEditable = "true";
+  item.contentEditable = "true";
+  price.class = "item last" ;
+}
+  </script>
+
+	</body>
+</html>

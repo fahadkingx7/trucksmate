@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connection check – TrucksMate</title>
+<link rel="icon" href="favicon.png">
+<style>
+  body { margin:0; font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif; color:#101828; background:#fff; }
+  main { max-width:680px; margin:0 auto; padding:32px 20px; }
+  img { height:34px; display:block; margin-bottom:20px; }
+  h1 { font-size:20px; margin:0 0 4px; } p.sub { color:#667085; margin:0 0 20px; }
+  .row { display:flex; gap:12px; padding:12px 14px; border:1px solid #eaecf0; border-radius:12px; margin-bottom:10px; }
+  .ic { font-size:18px; width:22px; text-align:center; flex:none; }
+  .ok .ic { color:#12b76a; } .bad .ic { color:#f04438; } .wait .ic { color:#98a2b3; }
+  .row b { display:block; } .row span { color:#475467; font-size:13px; word-break:break-word; }
+  .help { background:#fffaeb; border:1px solid #fedf89; color:#93370d; border-radius:12px; padding:12px 14px; margin-top:16px; }
+  .help ul { margin:6px 0 0 18px; padding:0; }
+  button { font:inherit; font-weight:600; padding:9px 16px; border-radius:10px; border:1px solid #3257F7; background:#3257F7; color:#fff; cursor:pointer; }
+  input { font:inherit; padding:8px 10px; border:1px solid #d0d5dd; border-radius:10px; margin-right:6px; }
+  code { background:#f2f4f7; padding:1px 6px; border-radius:6px; }
+  .vvfoot { text-align:center; padding:10px 0 28px; } .vvfoot a { text-decoration:none; color:#667085; font-size:13px; display:inline-flex; align-items:center; gap:0; }
+  .vvfoot b { color:#282340 !important; font-family:Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; font-weight:600; font-size:15px; letter-spacing:-0.35px; line-height:1; }
+  .vv-p { height:18px; width:auto; margin:0 1px 0 6px; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap">
+</head>
+<body>
+<main>
+  <img src="logo.png" alt="TrucksMate">
+  <h1>Connection check</h1>
+  <p class="sub">Finds out why you see "Failed to fetch". Run it on the same computer and network where the error happens.</p>
+  <p><button id="run">Run check</button></p>
+  <div id="out"></div>
+  <div id="help"></div>
+  <h1 style="margin-top:28px;font-size:16px">Test a login</h1>
+  <p class="sub">Checks an email and password against Supabase directly.</p>
+  <input id="em" placeholder="Email"><input id="pw" type="password" placeholder="Password"><button id="login">Test sign-in</button>
+  <div id="loginout" style="margin-top:10px"></div>
+  <p class="vvfoot"><a class="vv" href="https://veefivee.com" target="_blank" rel="noopener">Developed by <img class="vv-p" src="palm.png" alt=""><b>veefivee</b></a></p>
+</main>
+<script src="config.js"></script>
+<script>
+const out = document.getElementById('out');
+const base = String(CFG.SUPABASE_URL).replace(/\/$/, '');
+const host = (() => { try { return new URL(base).host; } catch (e) { return base; } })();
+function row(kind, title, detail) {
+  const d = document.createElement('div'); d.className = 'row ' + kind;
+  const ic = document.createElement('div'); ic.className = 'ic'; ic.textContent = kind === 'ok' ? '✓' : kind === 'bad' ? '✗' : '…';
+  const t = document.createElement('div'); const b = document.createElement('b'); b.textContent = title; const s = document.createElement('span'); s.textContent = detail || '';
+  t.append(b, s); d.append(ic, t); out.append(d); return d;
+}
+function help(items, title) {
+  const h = document.getElementById('help'); h.replaceChildren();
+  const d = document.createElement('div'); d.className = 'help'; d.append(title);
+  const ul = document.createElement('ul'); for (const i of items) { const li = document.createElement('li'); li.textContent = i; ul.append(li); } d.append(ul); h.append(d);
+}
+async function run() {
+  out.replaceChildren(); document.getElementById('help').replaceChildren();
+  if (!/^https:\/\//.test(base) || /YOUR-PROJECT/.test(base)) { row('bad', 'config.js is not filled in', 'Put your Supabase URL and key in admin/config.js (and extension/config.js).'); return; }
+  row('ok', 'Config found', host);
+
+  const reach = await fetch(base + '/auth/v1/health', { mode: 'no-cors' }).then(() => true, () => false);
+  row(reach ? 'ok' : 'bad', `1. Can this computer reach ${host}?`, reach ? 'Yes.' : 'No. The lookup or connection is failing before Supabase is even contacted.');
+  if (!reach) {
+    help([
+      'Open ' + base + '/auth/v1/health in a new tab. If that page will not load either, the network is blocking supabase.co (some ISPs, offices and countries do).',
+      'Try a different network (for example your phone hotspot) or a VPN.',
+      'Change your DNS to 1.1.1.1 or 8.8.8.8 (Windows: Network settings > DNS; or Chrome: Settings > Privacy and security > Security > Use secure DNS).',
+      'Check the project is not paused: supabase.com/dashboard shows "Paused" on inactive free projects. Click Restore.',
+      'Check the URL spelling in config.js against Project Settings > API.',
+      'If it is a network-level block, use the Cloudflare proxy in the proxy/ folder (see README).'
+    ], 'Supabase is not reachable from here. Things to try:');
+    return;
+  }
+
+  try {
+    const r = await fetch(base + '/auth/v1/health', { headers: { apikey: CFG.SUPABASE_ANON_KEY } });
+    const t = await r.text();
+    row(r.ok ? 'ok' : 'bad', '2. API key and browser access', r.ok ? 'OK.' : `HTTP ${r.status}: ${t.slice(0, 140)}. Re-copy the key from Project Settings > API.`);
+  } catch (e) { row('bad', '2. API key and browser access', 'Reachable, but the browser blocked the response.'); }
+
+  try {
+    const r = await fetch(base + '/functions/v1/admin-users', { method: 'POST', headers: { apikey: CFG.SUPABASE_ANON_KEY, 'Content-Type': 'application/json' }, body: '{}' });
+    const t = await r.text();
+    if (r.status === 404) row('bad', '3. admin-users function (needed for the Team tab)', 'Not deployed (404). Deploy it under exactly that name.');
+    else if (/Please sign in again/i.test(t)) row('ok', '3. admin-users function (needed for the Team tab)', 'Deployed and answering.');
+    else if (r.status === 401) row('bad', '3. admin-users function (needed for the Team tab)', 'Deployed, but "Verify JWT" is ON. Turn it off in the function settings.');
+    else row('ok', '3. admin-users function (needed for the Team tab)', `Answered with HTTP ${r.status}.`);
+  } catch (e) {
+    row('bad', '3. admin-users function (needed for the Team tab)', 'Not reachable by the browser. Usually it is not deployed under the exact name "admin-users", or "Verify JWT" is still ON.');
+  }
+}
+document.getElementById('run').onclick = run;
+document.getElementById('login').onclick = async () => {
+  const o = document.getElementById('loginout'); o.replaceChildren();
+  try {
+    const r = await fetch(base + '/auth/v1/token?grant_type=password', { method: 'POST', headers: { apikey: CFG.SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: document.getElementById('em').value.trim(), password: document.getElementById('pw').value }) });
+    const j = await r.json().catch(() => ({}));
+    o.textContent = r.ok ? '✓ Signed in as ' + j.user.email : `✗ HTTP ${r.status}: ${j.error_description || j.msg || j.message || 'unknown error'}`;
+  } catch (e) { o.textContent = '✗ Could not connect: ' + e.message; }
+};
+run();
+</script>
+</body>
+</html>
