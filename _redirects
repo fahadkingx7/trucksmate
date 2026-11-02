@@ -2,8 +2,8 @@
 /admin      https://p3plzcpnl507323.prod.phx3.secureserver.net:2083/   301
 /admin/     https://p3plzcpnl507323.prod.phx3.secureserver.net:2083/   301
 /admin.html https://us4.webhostface.biz   302
-/mail       https://p3plzcpnl507323.prod.phx3.secureserver.net:2096/   301
-/mail/      https://p3plzcpnl507323.prod.phx3.secureserver.net:2096/   301
+/mail       https://webmail.trucksmate.com/   301
+/mail/      https://webmail.trucksmate.com/   301
 /login      https://login.veefivee.com   302
 /login/     https://login.veefivee.com   302
 /download   https://veefivee.com/downloads/login/   302
