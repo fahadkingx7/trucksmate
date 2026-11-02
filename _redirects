@@ -1,0 +1,16 @@
+# Shortcut links (these used to be PHP files on GoDaddy)
+/admin      https://p3plzcpnl507323.prod.phx3.secureserver.net:2083/   301
+/admin/     https://p3plzcpnl507323.prod.phx3.secureserver.net:2083/   301
+/admin.html https://us4.webhostface.biz   302
+/mail       https://p3plzcpnl507323.prod.phx3.secureserver.net:2096/   301
+/mail/      https://p3plzcpnl507323.prod.phx3.secureserver.net:2096/   301
+/login      https://login.veefivee.com   302
+/login/     https://login.veefivee.com   302
+/download   https://veefivee.com/downloads/login/   302
+/download/  https://veefivee.com/downloads/login/   302
+/gvoice     https://github.com/fahadkingx7/google-voice-auto-client/archive/refs/heads/main.zip   302
+/gvoice/    https://github.com/fahadkingx7/google-voice-auto-client/archive/refs/heads/main.zip   302
+
+# Old addresses of pages that moved to their own subdomains
+/portal     https://portal.trucksmate.com/   301
+/portal/*   https://portal.trucksmate.com/:splat   301
