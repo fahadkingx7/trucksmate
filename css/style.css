@@ -21159,3 +21159,6 @@ strong {
     display: none;
   }
 }
+/* Header logo (vector) – fixed sizing so it sits centred and never stretches the header */
+.header-style-3 .logo-header .logo-header-inner img{width:100%;height:auto;max-height:none;display:block;position:relative;left:6px;top:-2px}
+@media (max-width:400px){.header-style-3 .logo-header{width:112px}}
