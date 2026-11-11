@@ -1,0 +1,18 @@
+# Apache / cPanel / GoDaddy hosting
+
+# Old address -> new address: trucksmate.com/portal/... now lives at portal.trucksmate.com
+# (the same folder serves both; only visits through the old host name are sent on)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^(www\.)?trucksmate\.com$ [NC]
+  RewriteRule ^(.*)$ https://portal.trucksmate.com/$1 [R=302,L]
+</IfModule>
+
+# Never cache the page itself or the version file, so updates show up straight away.
+<IfModule mod_headers.c>
+  <FilesMatch "^(index\.html|version\.json)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>

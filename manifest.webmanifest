@@ -1,0 +1,18 @@
+{
+  "name": "TeamLook Demo",
+  "short_name": "TeamLook",
+  "description": "TeamLook call-team portal (demo)",
+  "id": "/",
+  "start_url": "/#/home",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "palm.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }
+  ]
+}
